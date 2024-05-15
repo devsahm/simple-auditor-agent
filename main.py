@@ -3,8 +3,7 @@ import os
 from dotevn import load_dotenv
 from actions import get_response_time
 from prompts import system_prompt
-from json_helper import extract_json
-
+from SimpleLLM.tools.helpers import extract_json_from_text
 
 # Load Environemental variable
 load_dotenv()
@@ -47,14 +46,14 @@ while turns_count < max_turns :
 
     print(response)
 
-    json_function = extract_json(response)
+    json_function = extract_json_from_text(response)
     
     if json_function:
         function_name = json_function[0]['function_name']
         function_params = json_function[0]['function_params']
 
         if function_name not in available_actions:
-            raise Exception(f"Unnown action: {function_name}: {function_params}")
+            raise Exception(f"Unknown action: {function_name}: {function_params}")
         
         print(f"runing ------ {function_name}:{function_params}")
 
